@@ -46,8 +46,12 @@ $.getJSON('js/2016Results.json', function (data1) {
           tickInterval: 1,          
           stops: [[0, '#0000FF'], [0.5, '#0000FF'], [0.51, '#FF0000'], [1, '#FF0000']],
           labels: {
-              format: '{value}%'
-          }
+            formatter: function() {
+                if (this.value === 0) 
+                    return 'D';
+                else if (this.value === 1)
+                    return 'R';
+            }          }
       },
 
       plotOptions: {
@@ -89,7 +93,7 @@ $.getJSON('js/2016Predictions.json', function (data1) {
     let data = data1.data;
 
     let colorCodes = [];
-    let colorShades = ['#80CBC4', '#4DD0E1', '#29B6F6', '#1976D2', '#311B92', 
+    let colorShades = ['#311B92', '#1976D2', '#29B6F6', '#4DD0E1', '#80CBC4', 
                        '#FFF59D', '#FFCCBC', '#E57373', '#FF5722', '#FF0000'];
 
     let currIndex = 0;
@@ -144,12 +148,17 @@ $.getJSON('js/2016Predictions.json', function (data1) {
         },
   
         colorAxis: {
-            min: 0,
+            min: -1,
             max: 1,
             tickInterval: 1,          
             stops: colorCodes,
             labels: {
-                format: '{value}%'
+                formatter: function() {
+                    if (this.value === -1) 
+                        return 'D';
+                    else if (this.value === 1)
+                        return 'R';
+                }
             }
         },
   
@@ -187,5 +196,7 @@ $.getJSON('js/2016Predictions.json', function (data1) {
         }]
     });
   });
+
+  $('.highcharts-axis-labels highcharts-coloraxis-labels').hide();
 
 });
